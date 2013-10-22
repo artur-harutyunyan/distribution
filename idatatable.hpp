@@ -1,0 +1,5 @@
+#include <QGlobal>
+
+class IDataTable
+{
+}
