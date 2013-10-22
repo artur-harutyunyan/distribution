@@ -2,4 +2,5 @@
 
 class IDataTable
 {
+	public:
 }
