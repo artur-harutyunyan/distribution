@@ -4,5 +4,7 @@
 
 class IDataTable
 {
-	public:
+public:
+		virtual int getColumnCount() = 0;
+	
 }
