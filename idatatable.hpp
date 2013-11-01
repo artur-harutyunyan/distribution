@@ -3,7 +3,7 @@
 
 #include <QGlobal>
 
-#include "iDataColumn.h"
+#include "idatacolumn.hpp"
 
 namespace da
 {
