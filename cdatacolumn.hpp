@@ -1,10 +1,9 @@
-#ifndef CDATATABLE
-#define  CDATATABLE
+#ifndef CDATATABLE_HPP
+#define  CDATATABLE_HPP
 
-#include "idatacolumn.hpp"
+#include "iDataColumn.h"
 #include <QImage>
 #include <QVector>
-#include <QVariant>
 #include <QString>
 
 namespace da
@@ -16,18 +15,16 @@ class CDataColumn : public IDataColumn
 	{
 	public:
 		template<typename T> 
-		void push_back(const T& value)
-		{
-			Data<T> *pData = static_cast<Data<T>* >(this);
-			pData->push_back(value);
-		}
+		void push_back(const T& value);
 
 		template <typename T>
-		int size()
-		{
-			Data<T> *pData = static_cast<Data<T>* >(this);
-			return pData->size();
-		}
+		int size();
+
+		template<typename T>
+		void reserve(int size);
+
+		template<typename T>
+		void getData(int row, T& val);
 	};
 
 	template<typename T>
@@ -49,67 +46,74 @@ class CDataColumn : public IDataColumn
 		{
 			values.reserve(size);
 		}
+
+		void getData(int row, T& val)
+		{
+			val = values[row];
+		}
 	};
 	// members
 private:
 	//
-	/// Type of column
-	//
-	EType type;
-	//
 	/// Name of column
 	//
-	QString name;
-
+	QString m_name;
 	//
-	/// Pointer to the actual data
+	/// Type of column
 	//
-	DataBase *pData;
+	EType m_type;
+	//
+	/// Ppointer to the actual data
+	//
+	DataBase *m_pData;
 
 	// constructor/destructor
 public:
 	CDataColumn()
-		:name(""),
-		pData(0)
+		:m_name(""),
+		m_pData(0)
 	{}
+
+	//
+	/// Create new column of specified type.
+	/// Name will be empty.
+	//
+	CDataColumn(EType type);
+
+	//
+	/// Create new column of speciified type and name.
+	//
+	CDataColumn(const QString& name, EType type);
 
 	virtual ~CDataColumn()
 	{}
 	// function
 public:
-	virtual int getSize()
-	{
-		switch(type) {
-		String:
-			return pData->size<QString>();
-		DateTime:
-			return pData->size<QDateTime>();
-		Int:
-			return pData->size<int>();
-		Double:	
-			return pData->size<double>();
-		Image:
-			return pData->size<QImage>();
-		}
-	}
+	virtual int getSize();
 
 	virtual EType getType()
 	{
-		return type;
+		return m_type;
 	}
 
 	virtual QString getName()
 	{
-		return name;
+		return m_name;
 	}
 
 	void setName(QString& newName)
 	{
-		name = newName;
+		m_name = newName;
 	}
+
+	virtual void getData(int row, QString& val);
+	virtual void getData(int row, QDateTime& val);
+	virtual void getData(int row, int& val);
+	virtual void getData(int row, double& val);
+	virtual void getData(int row, QImage& val);
 
 };// class CDataColumn
 
 }// namespace da
 
-#endif // CDATATABLE
+#endif // CDATATABLE_HPP
