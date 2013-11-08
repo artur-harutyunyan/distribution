@@ -28,3 +28,4 @@ rem ----------------------------------------------------------------------------
 
 qmake distribution.pro BUILD_OUTPUT="%BUILD_OUTPUT%" CONFIG+=%Configuration%
 nmake
+pause
