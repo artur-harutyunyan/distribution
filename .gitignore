@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+# Debug files
+*.pdb
+
+# MakeFiles
+Make*
+
+# MOC FILES
+moc_*
