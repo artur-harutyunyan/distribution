@@ -1,7 +1,7 @@
 #ifndef CDATATABLE_HPP
 #define  CDATATABLE_HPP
 
-#include "iDataColumn.h"
+#include "idatacolumn.hpp"
 #include <QImage>
 #include <QVector>
 #include <QString>
@@ -11,61 +11,6 @@ namespace da
 
 class CDataColumn : public IDataColumn
 {
-	class DataBase
-	{
-	public:
-		template<typename T> 
-		void push_back(const T& value);
-
-		template <typename T>
-		int size();
-
-		template<typename T>
-		void reserve(int size);
-
-		template<typename T>
-		void getData(int row, T& val);
-	};
-
-	template<typename T>
-	class Data : public DataBase
-	{
-		QVector<T> values;
-	public:
-		void push_back(const T& val)
-		{
-			values.push_back(val);
-		}
-
-		int size()
-		{
-			return values.size();
-		}
-
-		void reserve(int size)
-		{
-			values.reserve(size);
-		}
-
-		void getData(int row, T& val)
-		{
-			val = values[row];
-		}
-	};
-	// members
-private:
-	//
-	/// Name of column
-	//
-	QString m_name;
-	//
-	/// Type of column
-	//
-	EType m_type;
-	//
-	/// Ppointer to the actual data
-	//
-	DataBase *m_pData;
 
 	// constructor/destructor
 public:
@@ -87,7 +32,7 @@ public:
 
 	virtual ~CDataColumn()
 	{}
-	// function
+	// functions
 public:
 	virtual int getSize();
 
@@ -112,6 +57,48 @@ public:
 	virtual void getData(int row, double& val);
 	virtual void getData(int row, QImage& val);
 
+private:
+
+	class DataBase
+	{
+	public:
+		template<typename T> 
+		void push_back(const T& value);
+
+		template <typename T>
+		int getSize();
+
+		template<typename T>
+		void reserve(int size);
+
+		template<typename T>
+		void getData(int row, T& val);
+	};
+
+	template<typename T>
+	class Data : public DataBase, public QVector<T>
+	{
+	public:
+		void getData(int row, T& val)
+		{
+			val = QVector<T>::at(row);
+		}
+	};
+
+	// members
+private:
+	//
+	/// Name of column
+	//
+	QString m_name;
+	//
+	/// Type of column
+	//
+	EType m_type;
+	//
+	/// Ppointer to the actual data
+	//
+	DataBase *m_pData;
 };// class CDataColumn
 
 }// namespace da
