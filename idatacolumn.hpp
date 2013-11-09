@@ -11,20 +11,19 @@ namespace da
 class IDataColumn
 {
 public:
-	static enum EType {	String = 0 ,
-						DateTime,
-						Int,
-						Double,
-						Image,
-						TypeCount};
-public:
+	enum EType {String = 0,
+				DateTime,
+				Int,
+				Double,
+				Image,
+				TypeCount };
 
 	virtual ~IDataColumn()
 	{}
 
 	virtual QString getName() = 0;
 	virtual int getSize() = 0;
-	virtual Type getType() = 0;
+	virtual EType getType() = 0;
 	virtual void getData(int row, QString& value) = 0;
 	virtual void getData(int row, QDateTime& value) = 0;
 	virtual void getData(int row, int& value) = 0;
