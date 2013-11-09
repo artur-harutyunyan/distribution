@@ -1,5 +1,8 @@
 #include "cdatacolumn.hpp"
 
+namespace da
+{
+
 CDataColumn::CDataColumn(EType type)
 	: m_name(""),
 	m_type(type)
@@ -35,76 +38,78 @@ CDataColumn::CDataColumn(const QString& name, EType type)
 	}
 }
 
-virtual int cDataColumn::getSize()
+int CDataColumn::getSize()
 {
-	switch(type) {
+	switch(m_type) {
 	String:
-		return m_pData->size<QString>();
+		return m_pData->getSize<QString>();
 	DateTime:
-		return m_pData->size<QDateTime>();
+		return m_pData->getSize<QDateTime>();
 	Int:
-		return m_pData->size<int>();
+		return m_pData->getSize<int>();
 	Double:	
-		return m_pData->size<double>();
+		return m_pData->getSize<double>();
 	Image:
-		return m_pData->size<QImage>();
+		return m_pData->getSize<QImage>();
 	}
 }
 
-virtual void cDataColumn::getData(int row, QString& val)
+void CDataColumn::getData(int row, QString& val)
 {
-	Data<T> *pData = static_cast<Data<QString>* >(this);
+	Data<QString> *pData = static_cast<Data<QString>* >(m_pData);
 	pData->getData(row, val);
 }
 
-virtual void cDataColumn::getData(int row, QDateTime& val)
+void CDataColumn::getData(int row, QDateTime& val)
 {
-	Data<T> *pData = static_cast<Data<QDateTime>* >(this);
+	Data<QDateTime> *pData = static_cast<Data<QDateTime>* >(m_pData);
 	pData->getData(row, val);
 }
 
-virtual void cDataColumn::getData(int row, int& val)
+void CDataColumn::getData(int row, int& val)
 {
-	Data<T> *pData = static_cast<Data<int>* >(this);
+	Data<int> *pData = static_cast<Data<int>* >(m_pData);
 	pData->getData(row, val);
 }
 
-virtual void cDataColumn::getData(int row, double& val)
+void CDataColumn::getData(int row, double& val)
 {
-	Data<T> *pData = static_cast<Data<double>* >(this);
+	Data<double> *pData = static_cast<Data<double>* >(m_pData);
 	pData->getData(row, val);
 }
 
-virtual void cDataColumn::getData(int row, QImage& val)
+void CDataColumn::getData(int row, QImage& val)
 {
-	Data<T> *pData = static_cast<Data<QImage>* >(this);
+	Data<QImage> *pData = static_cast<Data<QImage>* >(m_pData);
 	pData->getData(row, val);
 }
 
 template<typename T> 
-void cDataColumn::DataBase::push_back(const T& value)
+void CDataColumn::DataBase::push_back(const T& value)
 {
 	Data<T> *pData = static_cast<Data<T>* >(this);
 	pData->push_back(value);
 }
 
 template <typename T>
-int cDataColumn::DataBase::size()
+int CDataColumn::DataBase::getSize()
 {
 	Data<T> *pData = static_cast<Data<T>* >(this);
 	return pData->size();
 }
 
 template<typename T>
-void cDataColumn::DataBase::reserve(int size)
+void CDataColumn::DataBase::reserve(int size)
 {
 	Data<T> *pData = static_cast<Data<T>* >(this);
 	return pData->reserve();
 }
 
 template<typename T>
-void getData(int row, T& val);
+void CDataColumn::DataBase::getData(int row, T& val)
 {
 	Data<T> *pData = static_cast<Data<T>* >(this);
 	return pData->getData(row, val);
 }
+
+} // namespace da
