@@ -30,7 +30,7 @@ then
 BUILD_OUTPUT="${CURRENT_PATH}/build/${Configuration}x${PlatformArchitecture}"
 fi
 
-QMAKESPEC="linux-g++-64"
+QMAKESPEC="linux-g++-${PlatformArchitecture}"
 
 echo "environment variables"
 echo "-- Found qmake in ${QMAKE}"
