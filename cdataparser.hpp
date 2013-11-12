@@ -28,16 +28,6 @@ class ParserError : public std::exception
 
 class CCSVParser
 {
-	// TODO Temporary to pass compilation... Remove this
-	enum ColType {
-		BOOL,
-		INT,
-		FLOAT,
-		DATE,
-		STRING
-	} 
-	static const char cszError_Open_Failure[];
-	static const char cszError_No_Header_Data[];
 public:
 	/** 
 	 * @brief CCSVParser constructor.
@@ -56,9 +46,14 @@ public:
 	 */
 	IDataTable* getDataTable();
 private:
+
+	QStringList parseLine(const QString& line);
 	ColType getColType(cosnt QStringList& col);
 	//CDataTable* m_data_table;
 	const QString m_file_name;
+
+	static const char cszError_Open_Failure[];
+	static const char cszError_No_Header_Data[];
 };
 
 #endif // CDATAPARSER_HPP

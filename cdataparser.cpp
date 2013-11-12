@@ -78,6 +78,13 @@ IDataTable* CCSVParser::getDataTable()
 	return 0;
 }
 
+QStringList CCSVParser::parseLine(const QString& line)
+{
+	int n = line.size();
+	int p = 0;
+
+}
+
 /*
 	// TODO For testing... Remove this
 int main()
