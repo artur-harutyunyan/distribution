@@ -20,3 +20,7 @@ Make*
 
 # MOC FILES
 moc_*
+
+# temp files
+*.swp
+*~

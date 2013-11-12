@@ -4,22 +4,32 @@
 #include "cdatatable.hpp"
 
 #include <QString>
+#include <QVector>
+#include <QStringList>
 
 
 #include <exception>
 #include <string>
 
+namespace da {
+namespace io {
+
 class ParserError : public std::exception
 {
-	// TODO add format
 	std::string m_message;
+	int m_row;
 	public:
-		ParserError(const std::string& s)
+		ParserError(const std::string& s, int r)
 			: m_message(s)
+			, m_row(r)
 		{}
 		const char* what()
 		{
 			return m_message.c_str();
+		}
+		const char* format()
+		{
+			return QString("Parse error at line %1: %2").arg(m_row).arg(m_message).c_str();
 		}
 		~ParserError() throw()
 		{}
@@ -45,15 +55,20 @@ public:
 	 * @return the constructed IDataTable.
 	 */
 	IDataTable* getDataTable();
-private:
 
+private:
+	typedef QVector<QStringList> Table;
+	void addRowToTable(QStringList& sl, Table& tbl);
 	QStringList parseLine(const QString& line);
-	ColType getColType(cosnt QStringList& col);
-	//CDataTable* m_data_table;
+	EType getColType(cosnt QStringList& col); // Where is EType?
+	bool canCast(const QString& s, EType t);
+	CDataTable* m_data_table;
 	const QString m_file_name;
 
 	static const char cszError_Open_Failure[];
 	static const char cszError_No_Header_Data[];
 };
 
+} // namespace io
+} // namespace da
 #endif // CDATAPARSER_HPP
