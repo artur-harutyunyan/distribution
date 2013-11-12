@@ -1,4 +1,4 @@
-gH#include "cdataparser.hpp"
+#include "cdataparser.hpp"
 
 #include <QStringList>
 #include <QFile>
