@@ -22,7 +22,14 @@ CCSVParser::CCSVParser(const QString& csv)
 	, m_file_name(csv)
 {}
 
-void addRowToTable(QStringList& r, QVector<QStringList>& t)
+CCSVParser::~CCSVParser()
+{
+	if(0 != m_data_table) {
+		delete m_data_table;
+	}
+}
+
+void CCSVParser::addRowToTable(QStringList& r, QVector<QStringList>& t)
 {
 	int n = t.size();
 	Q_ASSERT(n == r.size());
@@ -44,74 +51,87 @@ void CCSVParser::parse()
 	}
 	QStringList header = line.split(',');
 	Table table(header.size());
-	m_data_table = new CDataTable;
-	int row = 1;
+	//m_data_table = new CDataTable;
+	int row_num = 1;
 	while(!f.atEnd())
 	{
 		line = ts.readLine();
 		QStringList row = parseLine(line);
 		if(row.size() != header.size()) {
-			throw ParserError(cszError_Incorrect_Row, row);
+			throw ParserError(cszError_Incorrect_Row, row_num);
 		}
 		addRowToTable(row, table);
+		++row_num;
 	}
 	for(int i = 0; i < table.size(); ++i) {
 		EType t = getColType(table[i]);
-		CDataColumn c = new CDataColumn(header[i], t);
+		CDataColumn* c = new CDataColumn(header[i], t);
 		// for(...)
 		// 	c.push_back(table[i][j]);
 		// m_data_table.addCol(c);
 	}
 }
 
-void CCSVParser::addRowToTable(QStringList& sl, Table& tbl) {
-	Q_ASSERT(sl.size() == tbl.size());
-	for(int i = 0; i < tbl.size(); ++i) {
-		tbl[i].push_back(row[i])l
-	}
-}
-
-EType CCSVParser::getColType(const QStringList& col)
+IDataColumn::EType CCSVParser::getColType(const QStringList& col)
 {
-	EType type = INT; // is it INT?
-	QStringList::Iterator it = col.begin();
+	int type = IDataColumn::Int;
+	QStringList::ConstIterator it = col.begin();
 	for(; it != col.end(); ++it) {
-		if(!canCast(*it, type)) {
-			type = ++int(type);
+		if(!canCast(*it, static_cast<EType>(type))) {
+			++type;
+		}
+		if(IDataColumn::String == type) {
+			break;
 		}
 	}
-	return type;
+	if(IDataColumn::String == type) {
+		it = col.begin();
+		type = IDataColumn::DateTime;
+		for(; it != col.end(); ++it) {
+			if(!canCast(*it, static_cast<EType>(type))) {
+				type = IDataColumn::String;
+				break;
+			}
+		}
+	}
+	return static_cast<EType>(type);
 }
 
 bool CCSVParser::canCast(const QString& s, EType t)
 {
 	bool ok;
 	switch(t) {
-		INT:
+		case IDataColumn::Int: {
 			s.toInt(&ok);
 			break;
-		FLOAT:
+		}
+		case IDataColumn::Double: {
 			s.toDouble(&ok);
 			break;
-		DATETIME:
+		}
+		case IDataColumn::DateTime: {
 			QDateTime dt = QDateTime::fromString(s, "Some format");
 			ok = dt.isValid();
 			break;
-		STRING:
+		}
+		case IDataColumn::String: {
 			ok = true;
 			break;
-		default:
+		}
+		default: {
 			ok = false;
 			break;
+		}
 	}
 	return ok;
 }
 
-IDataTable* CCSVParser::getDataTable()
+IDataTable* CCSVParser::takeDataTable()
 {
-	Q_ASSERT(0 == m_data_table);
-	return m_data_table;
-	return 0;
+	Q_ASSERT(0 != m_data_table);
+	IDataTable* dt = m_data_table;
+	m_data_table = 0;
+	return dt;
 }
 
 QStringList CCSVParser::parseLine(const QString& line)
@@ -140,6 +160,7 @@ QStringList CCSVParser::parseLine(const QString& line)
 	}
 	s.append(line[n-1]);
 	sl.push_back(s);
+	return sl;
 }
 
 } // namespace io

@@ -1,8 +1,6 @@
 #ifndef IDATATABLE_H
 #define IDATATABLE_H
 
-#include <QGlobal>
-
 #include "idatacolumn.hpp"
 
 namespace da

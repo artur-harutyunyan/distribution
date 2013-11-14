@@ -2,6 +2,7 @@
 #define CDATAPARSER_HPP
 
 #include "cdatatable.hpp"
+#include "idatacolumn.hpp"
 
 #include <QString>
 #include <QVector>
@@ -29,7 +30,7 @@ class ParserError : public std::exception
 		}
 		const char* format()
 		{
-			return QString("Parse error at line %1: %2").arg(m_row).arg(m_message).c_str();
+			return QString("Parse error at line %1: %2").arg(m_row).arg(m_message.c_str()).toAscii().data();
 		}
 		~ParserError() throw()
 		{}
@@ -46,6 +47,11 @@ public:
 	CCSVParser(const QString& csv);
 
 	/**
+	 * @brief CCSVParser destructor.
+	 */
+	~CCSVParser();
+
+	/**
 	 * @brief parse the specified CSV file.
 	 */
 	void parse();
@@ -54,19 +60,21 @@ public:
 	 * @brief get the parsed CSV file as IDataTable.
 	 * @return the constructed IDataTable.
 	 */
-	IDataTable* getDataTable();
+	IDataTable* takeDataTable();
 
 private:
 	typedef QVector<QStringList> Table;
+	typedef IDataColumn::EType EType;
 	void addRowToTable(QStringList& sl, Table& tbl);
 	QStringList parseLine(const QString& line);
-	EType getColType(cosnt QStringList& col); // Where is EType?
+	EType getColType(const QStringList& col); // Where is EType?
 	bool canCast(const QString& s, EType t);
 	CDataTable* m_data_table;
 	const QString m_file_name;
 
 	static const char cszError_Open_Failure[];
 	static const char cszError_No_Header_Data[];
+	static const char cszError_Incorrect_Row[];
 };
 
 } // namespace io

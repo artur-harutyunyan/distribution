@@ -11,12 +11,12 @@ namespace da
 class IDataColumn
 {
 public:
-	enum EType {String = 0,
-				DateTime,
-				Int,
-				Double,
-				Image,
-				TypeCount };
+	enum EType { Int = 0,
+			Double,
+			String,
+			DateTime,
+			Image,
+			TypeCount };
 
 	virtual ~IDataColumn()
 	{}

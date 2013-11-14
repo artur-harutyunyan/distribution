@@ -8,16 +8,24 @@ CDataColumn::CDataColumn(EType type)
 	m_type(type)
 {
 	switch(m_type) {
-	String:
+	case String:
 		m_pData = new Data<QString>;
-	DateTime:
+		break;
+	case DateTime:
 		m_pData = new Data<QDateTime>;
-	Int:
+		break;
+	case Int:
 		m_pData = new Data<int>;
-	Double:	
+		break;
+	case Double:	
 		m_pData = new Data<double>;
-	Image:
+		break;
+	case Image:
 		m_pData = new Data<QImage>;
+		break;
+	default:
+		Q_ASSERT(false);
+		break;
 	}
 }
 CDataColumn::CDataColumn(const QString& name, EType type)
@@ -25,32 +33,49 @@ CDataColumn::CDataColumn(const QString& name, EType type)
 	m_type(type)
 {
 	switch(m_type) {
-	String:
+	case String:
 		m_pData = new Data<QString>;
-	DateTime:
+		break;
+	case DateTime:
 		m_pData = new Data<QDateTime>;
-	Int:
+		break;
+	case Int:
 		m_pData = new Data<int>;
-	Double:	
+		break;
+	case Double:	
 		m_pData = new Data<double>;
-	Image:
+		break;
+	case Image:
 		m_pData = new Data<QImage>;
+		break;
+	default:
+		Q_ASSERT(false);
+		break;
 	}
 }
 
 int CDataColumn::getSize()
 {
 	switch(m_type) {
-	String:
+	case String:
 		return m_pData->getSize<QString>();
-	DateTime:
+		break;
+	case DateTime:
 		return m_pData->getSize<QDateTime>();
-	Int:
+		break;
+	case Int:
 		return m_pData->getSize<int>();
-	Double:	
+		break;
+	case Double:	
 		return m_pData->getSize<double>();
-	Image:
+		break;
+	case Image:
 		return m_pData->getSize<QImage>();
+		break;
+	default:
+		Q_ASSERT(false);
+		return 0;
+		break;
 	}
 }
 
