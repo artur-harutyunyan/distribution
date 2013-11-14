@@ -3,17 +3,31 @@
 
 #include "idatacolumn.hpp"
 
+#include <QStringList>
+
 namespace da
 {
 
 class IDataTable
 {
 public:
-	virtual IDataColumn* getColumn() = 0;
+	virtual IDataColumn* getColumn(int index) = 0;
 	virtual int getColumnCount() = 0;
-	virtual QString getColumnName() = 0;
+	virtual QString getColumnName(int index) = 0;
 	virtual int getRowCount() = 0;
-	QStringList getColumnNames();
+	virtual QStringList getColumnNames()
+	{
+		QStringList ret;
+		int count = getColumnCount();
+		for (int i = 0; i < count; ++i)
+		{
+			ret << getColumnName(i);
+		}
+		return ret;
+	}
+
+	virtual ~IDataTable()
+	{};
 }; // class DataColumn
 
 }// namespace da
