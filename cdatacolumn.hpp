@@ -1,7 +1,8 @@
 #ifndef CDATATABLE_HPP
-#define  CDATATABLE_HPP
+#define CDATATABLE_HPP
 
-#include "idatacolumn.hpp"
+#include "idatacolumn.hpp
+
 #include <QImage>
 #include <QVector>
 #include <QString>
@@ -36,15 +37,9 @@ public:
 public:
 	virtual int getSize();
 
-	virtual EType getType()
-	{
-		return m_type;
-	}
+	virtual EType getType();
 
-	virtual QString getName()
-	{
-		return m_name;
-	}
+	virtual QString getName();
 
 	void setName(QString& newName)
 	{
@@ -56,6 +51,9 @@ public:
 	virtual void getData(int row, int& val);
 	virtual void getData(int row, double& val);
 	virtual void getData(int row, QImage& val);
+
+	template <typename T>
+	void  push_back(const T& val);
 
 private:
 
