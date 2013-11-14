@@ -24,3 +24,6 @@ moc_*
 # temp files
 *.swp
 *~
+
+#build directory
+build/

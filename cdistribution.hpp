@@ -3,8 +3,9 @@
 
 #include <QObject>
 
-#include <cmodule.hpp>
-#include "CAnalysisTableModel.h"
+#include "cmodule.hpp"
+#include "idatatable.hpp"
+//#include "CAnalysisTableModel.h"
 
 namespace da
 {
@@ -17,7 +18,7 @@ public:
 private:
 	IDataTable* table;
 
-	CAnalysisTableModel* tableModel;
+	//CAnalysisTableModel* tableModel;
 };//class CDistributionModule
 
 }// namespace da
