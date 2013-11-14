@@ -55,6 +55,7 @@ HEADERS	+=	./canalyzer.hpp \
 #Source file(s)
 SOURCES	+=	./cdatacolumn.cpp \
 			./cdataparser.cpp \
+			./cdatatable.cpp \
 			./main.cpp
 
 
