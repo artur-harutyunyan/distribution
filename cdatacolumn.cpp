@@ -79,6 +79,22 @@ int CDataColumn::getSize()
 	}
 }
 
+EType CDataColumn::getType()
+{
+	return m_type;
+}
+
+QString CDataColumn::getName()
+{
+	return m_name;
+}
+
+template <typename T>
+void  CDataColumn::push_back(const T& val)
+{
+	m_pData->push_back(val);
+}
+
 void CDataColumn::getData(int row, QString& val)
 {
 	Data<QString> *pData = static_cast<Data<QString>* >(m_pData);
