@@ -8,15 +8,22 @@
 namespace da
 {
 
-class IDataColumn
-{
-public:
-	enum EType { Int = 0,
+//
+/// This enum defines types for IDataColumns
+//
+enum EType { Int = 0,
 			Double,
 			String,
 			DateTime,
 			Image,
 			TypeCount };
+
+//
+/// Interface class for data column.
+//
+class IDataColumn
+{
+public:
 
 	virtual ~IDataColumn()
 	{}
