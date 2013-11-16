@@ -64,7 +64,6 @@ public:
 
 private:
 	typedef QVector<QStringList> Table;
-	typedef IDataColumn::EType EType;
 	void addRowToTable(QStringList& sl, Table& tbl);
 	QStringList parseLine(const QString& line);
 	EType getColType(const QStringList& col); // Where is EType?

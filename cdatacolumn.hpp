@@ -1,7 +1,7 @@
 #ifndef CDATATABLE_HPP
 #define CDATATABLE_HPP
 
-#include "idatacolumn.hpp
+#include "idatacolumn.hpp"
 
 #include <QImage>
 #include <QVector>

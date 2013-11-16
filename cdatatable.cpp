@@ -23,4 +23,9 @@ int CDataTable::getRowCount()
 	return m_data.at(0)->getSize();
 }
 
+QStringList CDataTable::getColumnNames()
+{
+	return QStringList(); // fix this
+}
+
 } // namespace da

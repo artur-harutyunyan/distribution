@@ -72,24 +72,24 @@ void CCSVParser::parse()
 	}
 }
 
-IDataColumn::EType CCSVParser::getColType(const QStringList& col)
+EType CCSVParser::getColType(const QStringList& col)
 {
-	int type = IDataColumn::Int;
+	int type = Int;
 	QStringList::ConstIterator it = col.begin();
 	for(; it != col.end(); ++it) {
 		if(!canCast(*it, static_cast<EType>(type))) {
 			++type;
 		}
-		if(IDataColumn::String == type) {
+		if(String == type) {
 			break;
 		}
 	}
-	if(IDataColumn::String == type) {
+	if(String == type) {
 		it = col.begin();
-		type = IDataColumn::DateTime;
+		type = DateTime;
 		for(; it != col.end(); ++it) {
 			if(!canCast(*it, static_cast<EType>(type))) {
-				type = IDataColumn::String;
+				type = String;
 				break;
 			}
 		}
@@ -101,20 +101,20 @@ bool CCSVParser::canCast(const QString& s, EType t)
 {
 	bool ok;
 	switch(t) {
-		case IDataColumn::Int: {
+		case Int: {
 			s.toInt(&ok);
 			break;
 		}
-		case IDataColumn::Double: {
+		case Double: {
 			s.toDouble(&ok);
 			break;
 		}
-		case IDataColumn::DateTime: {
+		case DateTime: {
 			QDateTime dt = QDateTime::fromString(s, "Some format");
 			ok = dt.isValid();
 			break;
 		}
-		case IDataColumn::String: {
+		case String: {
 			ok = true;
 			break;
 		}
