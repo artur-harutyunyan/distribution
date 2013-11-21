@@ -1,10 +1,11 @@
-#ifndef CDATATABLE
-#define  CDATATABLE
+#ifndef CDATATABLE_HPP
+#define CDATATABLE_HPP
 
 #include <QVector>
 
 #include "idatatable.hpp"
-#include "idatacolumn.hpp"
+#include "cdatacolumn.hpp"
+#include "solepointer.hpp"
 
 namespace da
 {
@@ -23,21 +24,13 @@ public:
 		m_data.append(col);
 	}
 
-	virtual ~CDataTable()
-	{
-		int size = m_data.size();
-		for (int i = 0; i < size; ++i)
-		{
-			if (m_data[i])
-				delete m_data[i];
-		}
-	}
+	virtual ~CDataTable();
 
 private:
-	// vector of idatacolumns'
-	QVector<IDataColumn*> m_data;
+	// vector of cdatacolumns'
+	QVector<solepointer<CDataColumn> > m_data;
 };// class CDataTable
 
 }// namespace da
 
-#endif // CDATATABLE
+#endif // CDATATABLE_HPP
