@@ -4,11 +4,11 @@
 #include <QVector>
 
 #include "idatatable.hpp"
-#include "cdatacolumn.hpp"
-#include "solepointer.hpp"
 
 namespace da
 {
+
+class CDataColumn;
 
 class CDataTable : public IDataTable
 {
@@ -19,16 +19,11 @@ public:
 	virtual int getRowCount();
 	virtual QStringList getColumnNames();
 
-	void append(IDataColumn* col)
-	{
-		m_data.append(col);
-	}
-
 	virtual ~CDataTable();
 
 private:
 	// vector of cdatacolumns'
-	QVector<solepointer<CDataColumn> > m_data;
+	QVector<CDataColumn* > m_data;
 };// class CDataTable
 
 }// namespace da
