@@ -33,7 +33,8 @@ CONFIG(debug, debug|release) {
 unix:QMAKE_CXXFLAGS_RELEASE += -fno-strict-aliasing
 
 #Header file(s)
-HEADERS	+=	./canalyzer.hpp \			
+HEADERS	+=		./solepointer.hpp \
+			./canalyzer.hpp \			
 			./capplication.hpp \
 			./cchartgallery.hpp \
 			./cdatacolumn.hpp \
