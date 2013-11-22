@@ -8,9 +8,13 @@ TEMPLATE = app
 TARGET   = distribution
 DEFINES += DISTRIBUTION_LIB
 
+
+
 #Check if destination directory is specified
 isEmpty(BUILD_OUTPUT){
-	error("BUILD_OUTPUT is not specified! ( Example: qmake <project>.pro "BUILD_OUTPUT=<path>" )")}
+	BUILD_OUTPUT = build
+	warning("BUILD_OUTPUT is not specified! Set it to \"build\"/")
+}
 
 #Default configuration
 CONFIG += qt; 

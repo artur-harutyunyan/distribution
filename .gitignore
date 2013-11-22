@@ -27,3 +27,11 @@ moc_*
 
 #build directory
 build/
+Win32/
+ipch/
+
+#visual studio files
+*.vcxproj*
+*.sdf
+*.suo
+*.opensdf

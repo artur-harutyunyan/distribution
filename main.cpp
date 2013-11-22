@@ -1,6 +1,13 @@
+#include "CApplication.hpp"
+#include "CMainWindow.hpp"
 
 int main(int argc, char* argv[])
 {
-	///TBD!
-	return 0;
+	CApplication obApp(argc, argv);
+	CMainWindow wWin(obApp.getModule());
+
+	wWin.show();
+
+
+	return obApp.exec();
 }
