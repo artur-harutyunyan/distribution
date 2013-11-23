@@ -27,11 +27,18 @@ public:
 	T* operator->();
 	const T* operator->() const;
 
+	/// Cast operators
+	operator T*();
+	operator T* const () const;
 	 
-	// Method get() sets the internal pointer to NULL and returns previous pointer
+	// Method take() sets the internal pointer to NULL and returns previous pointer
+	inline T* take();
+	// Method get() returns the internal pointer
 	inline T* get();
 private:
-	T* m_ptr;
+	/// The internal pointer to actual data
+	/// It is mutable in order to be able to take() pointer from const solpointer object
+	mutable T* m_ptr;
 }; //class solepointer
 
 /// Constructor
@@ -45,7 +52,7 @@ solepointer<T>::solepointer(T* ptr)
 template<typename T>
 solepointer<T>::solepointer(const solepointer<T>& other)
 {
-	m_ptr = const_cast<solepointer<T>& >(other).get();
+	m_ptr = const_cast<solepointer<T>& >(other).take();
 }
 
 // Destuctor
@@ -60,7 +67,7 @@ solepointer<T>::~solepointer()
 template<typename T>
 solepointer<T>& solepointer<T>::operator=(const solepointer<T>& other)
 {
-	m_ptr = const_cast<solepointer<T>& >(other).get();
+	m_ptr = const_cast<solepointer<T>& >(other).take();
 }
 
 /// Dereferecing operators
@@ -76,13 +83,33 @@ const T* solepointer<T>::operator->() const
 	return m_ptr;
 }
 
-// Method get()
+// Cast operators
 template<typename T>
-inline T* solepointer<T>::get()
+solepointer<T>::operator T*()
+{
+	return  m_ptr;
+}
+
+template<typename T>
+solepointer<T>::operator T* const () const 
+{
+	return m_ptr;
+}
+
+// Method take()
+template<typename T>
+inline T* solepointer<T>::take()
 {
 	T* tmp = m_ptr;
 	m_ptr = 0;
 	return tmp;
+}
+
+// Method get()
+template<typename T>
+inline T* solepointer<T>::get()
+{
+	return m_ptr;
 }
 
 template<typename T>
