@@ -5,7 +5,7 @@
 
 #include "idatatable.hpp"
 #include "cdatacolumn.hpp"
-#include "solepointer.hpp"
+#include "soleptr.hpp"
 
 namespace da
 {
@@ -23,7 +23,7 @@ public:
 
 private:
 	// vector of cdatacolumns'
-	QVector<base::solepointer<CDataColumn> > m_data;
+	QVector<base::SolePtr<CDataColumn> > m_data;
 };// class CDataTable
 
 }// namespace da
