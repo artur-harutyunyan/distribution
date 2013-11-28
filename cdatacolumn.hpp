@@ -1,5 +1,5 @@
-#ifndef CDATATABLE_HPP
-#define CDATATABLE_HPP
+#ifndef CDATACOLUMN_HPP
+#define CDATACOLUMN_HPP
 
 #include "idatacolumn.hpp"
 
@@ -101,4 +101,4 @@ private:
 
 }// namespace da
 
-#endif // CDATATABLE_HPP
+#endif // CDATACOLUMN_HPP
