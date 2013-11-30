@@ -1,5 +1,7 @@
 #include "cdatacolumn.hpp"
 
+#include <iterator> // std::distance()
+
 namespace da
 {
 
@@ -28,6 +30,39 @@ CDataColumn::CDataColumn(EType type)
 		break;
 	}
 }
+
+template<typename InputIter>
+CDataColumn::CDataColumn(EType type, const InputIter& first, const InputIter& last)
+	: m_name(""),
+	m_type(type)
+{
+	switch(m_type) {
+	case String:
+		m_pData = new Data<QString>;
+		fill(first, last);
+		break;
+	case DateTime:
+		m_pData = new Data<QDateTime>;
+		fill(first, last);
+		break;
+	case Int:
+		m_pData = new Data<int>;
+		fill(first, last);
+		break;
+	case Double:	
+		m_pData = new Data<double>;
+		fill(first, last);
+		break;
+	case Image:
+		m_pData = new Data<QImage>;
+		fill(first, last);
+		break;
+	default:
+		Q_ASSERT(false);
+		break;
+	}
+}
+
 CDataColumn::CDataColumn(const QString& name, EType type)
 	: m_name(name),
 	m_type(type)
@@ -89,6 +124,42 @@ QString CDataColumn::getName()
 	return m_name;
 }
 
+template<typename InputIter>
+void CDataColumn::fill(const InputIter& first, const InputIter& last)
+{
+	int size = std::distance(first, last);
+	switch(m_type) {
+	case String:
+		//Data<QString>* pData = static_cast<Data<QString>* >(m_pData);
+		m_pData->reserve<QString>(size);
+		break;
+	case DateTime:
+		//Data<QDateTime>* pData = static_cast<Data<QDateTime>* >(m_pData);
+		m_pData->reserve<QDateTime>(size);
+		break;
+	case Int:
+		//Data<int>* pData = static_cast<Data<int>* >(m_pData);
+		m_pData->reserve<int>(size);
+		break;
+	case Double:	
+		//Data<double>* pData = static_cast<Data<double>* >(m_pData);
+		m_pData->reserve<double>(size);
+		break;
+	case Image:
+		//Data<QImage>* pData = static_cast<Data<QImage>* >(m_pData);
+		m_pData->reserve<QImage>(size);
+		break;
+	default:
+		Q_ASSERT(false);
+		return 0;
+		break;
+	}
+	//m_pData->reserve(size);
+	for(; first != last; ++first)
+	{
+		m_pData->push_back(*first);
+	}
+}
 template <typename T>
 void  CDataColumn::push_back(const T& val)
 {
