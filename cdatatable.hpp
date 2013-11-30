@@ -18,6 +18,7 @@ public:
 	virtual QString getColumnName(int index);
 	virtual int getRowCount();
 	virtual QStringList getColumnNames();
+	void addDataColumn(CDataColumn *);
 
 	virtual ~CDataTable();
 
