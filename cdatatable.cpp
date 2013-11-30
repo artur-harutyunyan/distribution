@@ -28,4 +28,9 @@ QStringList CDataTable::getColumnNames()
 	return QStringList(); // fix this
 }
 
+void CDataTable::addDataColumn(CDataColumn *col)
+{
+	m_data.append(base::SolePtr<CDataColumn>(col));
+}
+
 } // namespace da
