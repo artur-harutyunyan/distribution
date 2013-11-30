@@ -30,6 +30,11 @@ public:
 	/// Create new column of speciified type and name.
 	//
 	CDataColumn(const QString& name, EType type);
+	//
+	/// Create new column of specified type from input iterators.
+	//
+	template<typename InputIter>
+	CDataColumn(EType, const InputIter&, const InputIter&);
 
 	virtual ~CDataColumn()
 	{}
@@ -54,6 +59,13 @@ public:
 
 	template <typename T>
 	void  push_back(const T& val);
+
+	//
+	/// append new elements from first to last
+	/// TODO check internal and element's types
+	//
+	template<typename InputIter>
+	void fill(const InputIter& first, const InputIter& last);
 
 private:
 
